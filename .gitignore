@@ -1,0 +1,10 @@
+# Local credentials and Python environments must stay on this computer.
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+test-results/

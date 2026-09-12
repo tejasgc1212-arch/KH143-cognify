@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cognify recruitment intelligence dashboard.">
+
+  <title>Cognify | Recruitment Intelligence</title>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="api.js" defer></script>
+  <script src="script.js" defer></script>
+</head>/head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- Sidebar navigation connects to the showSection() function in script.js. -->
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#dashboard" data-section="dashboard" aria-label="Cognify dashboard">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span><strong>Cognify<span class="brand-dot">.</span></strong><small>AI Recruitment Intelligence</small></span>
+      </a>
+      <span class="nav-label">Workspace</span>
+      <nav class="nav-list">
+        <button class="nav-item active" data-section="dashboard" aria-current="page"><span class="icon icon-grid" aria-hidden="true"></span>Dashboard</button>
+        <button class="nav-item" data-section="new-analysis"><span class="icon icon-plus" aria-hidden="true"></span>New Analysis</button>
+        <button class="nav-item" data-section="candidates">
+          <span class="icon icon-people" aria-hidden="true"></span>
+          Candidates
+          <span class="nav-count">0</span>
+        </button>
+        <button class="nav-item" data-section="analytics"><span class="icon icon-chart" aria-hidden="true"></span>Analytics</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="workspace-status">
+          <span class="status-dot"></span>
+          Recruitment workspace
+          <span class="small-tag" data-mode-label>Empty</span>
+        </div>
+        <div class="recruiter-profile">
+          <span class="avatar recruiter-avatar">GC</span>
+          <div>
+            <strong>Ganesh Chavan</strong>
+            <small>Recruiter</small>
+          </div>
+          <span class="profile-status" title="Active" aria-label="Active"></span>
+        </div>
+      </div>
+    </aside>
+    <button class="sidebar-overlay" id="sidebar-overlay" aria-label="Close navigation" hidden></button>
+    <div class="app-shell">
+
+      <!-- Global top bar stays visible across all six screens. -->
+      <header class="topbar">
+        <div class="breadcrumb">
+          <button class="icon-button mobile-menu" id="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+            <span class="icon icon-menu" aria-hidden="true"></span>
+          </button>
+          <span class="workspace-name">Workspace</span>
+          <span class="breadcrumb-divider">/</span>
+          <strong id="breadcrumb-current">Dashboard</strong>
+        </div>
+        <div class="topbar-right">
+          <button class="running-indicator" id="running-indicator" hidden><span class="status-dot"></span>Analysis in progress</button>
+          <span class="demo-label"><span class="status-dot"></span><span id="workspace-data-label">Recruitment workspace</span></span>
+          <span class="topbar-divider"></span>
+          <span class="avatar avatar-small recruiter-avatar" aria-label="Ganesh Chavan">GC</span>
+        </div>
+      </header>
+      <main id="main-content" tabindex="-1">
+
+        <!-- SCREEN 1: Dashboard reads the current candidate results. -->
+        <section id="dashboard" class="page-section" aria-labelledby="dashboard-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">
+                Your hiring, at a glance
+              </div>
+              <h1 id="dashboard-title">Recruitment Intelligence Dashboard</h1>
+              <p>AI-powered candidate screening with evidence-backed matching.</p>
+            </div>
+            <button class="button button-primary" data-section="new-analysis"><span class="icon icon-plus" aria-hidden="true"></span>Start New Analysis</button>
+          </div>
+          <div class="kpi-grid">
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Candidates Analyzed</span>
+                <span class="metric-icon purple"><span class="icon icon-people" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value" id="dashboard-total-candidates">0</div>
+              <div class="kpi-footer"><span class="trend" id="dashboard-github-verified">0</span><span>GitHub verified</span></div>
+              <div class="kpi-sparkline spark-purple" aria-hidden="true">
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+              </div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Active Job Roles</span>
+                <span class="metric-icon cyan"><span class="icon icon-briefcase" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value" id="dashboard-active-roles">0</div>
+              <div class="kpi-footer"><span class="trend" id="dashboard-analysis-count">0</span><span>saved analyses</span></div>
+              <div class="kpi-sparkline spark-cyan" aria-hidden="true">
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+              </div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Shortlisted</span>
+                <span class="metric-icon green"><span class="icon icon-check" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value" id="dashboard-shortlisted">0</div>
+              <div class="kpi-footer"><span class="trend" id="dashboard-shortlisted-percent">0%</span><span>of current candidates</span></div>
+              <div class="kpi-sparkline spark-green" aria-hidden="true">
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+              </div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Average Match Score</span>
+                <span class="metric-icon amber"><span class="icon icon-target" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value"><span id="dashboard-average-match">0</span><span class="value-unit">%</span></div>
+              <div class="kpi-footer"><span class="trend" id="dashboard-scored-count">0</span><span>scored candidates</span></div>
+              <div class="kpi-sparkline spark-amber" aria-hidden="true">
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+                <i style="height:0%">
+                </i>
+              </div>
+            </article>
+          </div>
+          <div class="dashboard-charts">
+            <article class="panel distribution-panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Candidate Match Distribution</h2>
+                  <p>A closer look at your candidate pool</p>
+                </div>
+                <span class="subtle-label" id="dashboard-distribution-total">0 candidates</span>
+              </div>
+
+              <!-- Div heights form the chart; visible counts also make the data readable. -->
+              <div class="distribution-chart" role="img" aria-label="No analysis data yet">
+                <div class="chart-y-axis" aria-hidden="true">
+                  <span>100</span>
+                  <span>75</span>
+                  <span>50</span>
+                  <span>25</span>
+                  <span>0</span>
+                </div>
+                <div class="chart-plot">
+                  <div class="chart-gridlines" aria-hidden="true">
+                    <i>
+                    </i>
+                    <i>
+                    </i>
+                    <i>
+                    </i>
+                    <i>
+                    </i>
+                    <i>
+                    </i>
+                  </div>
+                  <div class="chart-columns">
+                    <div class="chart-column">
+                      <div class="chart-bar bar-indigo" style="--bar-height:0%;min-height:0">
+                        <span>0</span>
+                      </div>
+                      <span class="axis-label">90&#8211;100%</span>
+                    </div>
+                    <div class="chart-column">
+                      <div class="chart-bar bar-cyan" style="--bar-height:0%;min-height:0">
+                        <span>0</span>
+                      </div>
+                      <span class="axis-label">80&#8211;89%</span>
+                    </div>
+                    <div class="chart-column">
+                      <div class="chart-bar bar-mint" style="--bar-height:0%;min-height:0">
+                        <span>0</span>
+                      </div>
+                      <span class="axis-label">70&#8211;79%</span>
+                    </div>
+                    <div class="chart-column">
+                      <div class="chart-bar bar-amber" style="--bar-height:0%;min-height:0">
+                        <span>0</span>
+                      </div>
+                      <span class="axis-label">Below 70%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="chart-insight">
+                <span class="insight-symbol" aria-hidden="true">&#8599;</span>
+                <span id="dashboard-distribution-insight">No analysis data yet</span>
+                <span class="small-tag green-tag" id="dashboard-distribution-note">Awaiting analysis</span>
+              </div>
+            </article>
+            <article class="panel skills-panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Top Candidate Skills</h2>
+                  <p>Matched skills across current candidates</p>
+                </div>
+                <span class="icon icon-layers muted" aria-hidden="true"></span>
+              </div>
+              <div class="skill-bars" id="dashboard-skills"><p class="muted">No analysis data yet</p></div>
+            </article>
+          </div>
+          <article class="panel recent-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Recent Job Analyses</h2>
+                <p>Your latest roles and their candidate results</p>
+              </div>
+              <button class="text-button" data-section="candidates">View candidates <span aria-hidden="true">&#8594;</span></button>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <caption class="sr-only">
+                  Recent job analyses
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Role</th>
+                    <th scope="col">Candidates</th>
+                    <th scope="col">Top Match</th>
+                    <th scope="col">Average Score</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-analyses-body">
+                  <tr><td colspan="6" class="muted">No analysis data yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span id="recent-analyses-count">Showing 0 recent analyses</span>
+              <span><span class="status-dot"></span>All times in your local timezone</span>
+            </div>
+          </article>
+          <footer class="page-footer">
+            <span>Cognify &copy; 2026</span>
+            <span>Better evidence. Better hiring decisions.</span>
+          </footer>
+        </section>
+
+        <!-- SCREEN 2: Real files are uploaded to Python only when the form is submitted. -->
+        <section id="new-analysis" class="page-section" aria-labelledby="new-analysis-title" hidden>
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">
+                A better match starts here
+              </div>
+              <h1 id="new-analysis-title">New Candidate Analysis</h1>
+              <p>Bring your role, resumes, and project evidence together.</p>
+            </div>
+            <button class="button button-secondary" id="use-sample-data"><span class="icon icon-document" aria-hidden="true"></span>Use Sample Data</button>
+          </div>
+          <ol class="step-indicator" aria-label="Analysis steps">
+            <li class="active" aria-current="step"><span>1</span>Job Description</li>
+            <li><span>2</span>Candidate Data</li>
+            <li><span>3</span>AI Analysis</li>
+            <li><span>4</span>Results</li>
+          </ol>
+          <form id="analysis-form">
+            <div class="form-section">
+              <div class="section-heading">
+                <span class="section-number">01</span>
+                <div>
+                  <h2>Job Details</h2>
+                  <p>Define the role you are hiring for.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <label class="field field-wide">Job Role<input id="job-role" name="jobRole" placeholder="e.g. AI Engineer" maxlength="100"></label>
+                <label class="field">
+                  Department
+                  <select id="department" name="department">
+                    <option value="">Select department</option>
+                    <option>Engineering</option>
+                    <option>Product</option>
+                    <option>Data &amp; Insights</option>
+                    <option>Design</option>
+                    <option>Operations</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Minimum Experience
+                  <div class="input-with-suffix">
+                    <input id="minimum-experience" name="minimumExperience" type="number" min="0" max="50" step="0.5" placeholder="2">
+                    <span>years</span>
+                  </div>
+                </label>
+                <label class="field">Location<input id="job-location" name="location" placeholder="e.g. Bengaluru or Remote" maxlength="100"></label>
+                <label class="field">
+                  Employment Type
+                  <select id="employment-type" name="employmentType">
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Contract</option>
+                    <option>Internship</option>
+                  </select>
+                </label>
+              </div>
+              <label class="field description-field">
+                Job Description
+                <textarea id="job-description" name="jobDescription" rows="7" placeholder="Paste the complete job description including responsibilities, required skills, preferred skills, experience and education."></textarea>
+              </label>
+              <div class="jd-upload-row">
+                <label class="button button-secondary file-button">
+                  <span class="icon icon-upload" aria-hidden="true"></span>
+                  Upload Job Description
+                  <input id="job-description-file" type="file" accept=".pdf,.docx,.txt" aria-label="Upload job description">
+                </label>
+                <span class="muted small-text" id="jd-file-name">PDF, DOCX, or TXT</span>
+                <button class="icon-button" id="remove-jd-file" type="button" title="Remove job description file" aria-label="Remove job description file" hidden>
+                  &times;
+                </button>
+              </div>
+            </div>
+            <div class="form-section">
+              <div class="section-heading">
+                <span class="section-number">02</span>
+                <div>
+                  <h2>Candidate Data</h2>
+                  <p>Add resumes and optional GitHub profiles.</p>
+                </div>
+                <span class="small-tag" id="resume-count">0 / 100 resumes</span>
+              </div>
+              <label class="upload-zone" id="resume-drop-zone">
+                <span class="upload-symbol"><span class="icon icon-upload" aria-hidden="true"></span></span>
+                <strong>Upload Candidate Resumes</strong>
+                <span>Drag and drop files, or <span class="upload-link">browse files</span></span>
+                <small>Upload up to 100 resumes &middot; PDF, DOCX, TXT &middot; 10 MB per file</small>
+                <input id="resume-files" type="file" accept=".pdf,.docx,.txt" multiple aria-label="Upload candidate resumes">
+              </label>
+              <ul class="uploaded-files" id="uploaded-files" aria-live="polite">
+              </ul>
+              <div class="github-heading">
+                <div>
+                  <h3>GitHub Profiles <span class="optional-label">Optional</span></h3>
+                  <p>Connect candidates to their public project evidence.</p>
+                </div>
+                <button class="button button-secondary button-small" id="add-github-profile" type="button">
+                  <span class="icon icon-plus" aria-hidden="true"></span>
+                  Add GitHub Profile
+                </button>
+              </div>
+              <div id="github-rows">
+              </div>
+            </div>
+            <div class="form-actions">
+              <p><span class="status-dot"></span>AI analysis &middot; Document text is sent to your configured AI provider</p>
+              <button class="button button-primary" id="run-analysis-button" type="submit">
+                <span class="icon icon-spark" aria-hidden="true">&#10022;</span>
+                Run AI Candidate Analysis
+                <span aria-hidden="true">&#8594;</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- SCREEN 3: Agent cards and connectors are drawn with HTML and CSS only. -->
+        <section id="analysis" class="page-section" aria-labelledby="analysis-title" hidden>
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">
+                From information to insight
+              </div>
+              <h1 id="analysis-title">AI Candidate Analysis</h1>
+              <p id="analysis-subtitle">Preparing your recruitment analysis.</p>
+            </div>
+            <span class="badge badge-info">Simulated analysis</span>
+          </div>
+          <ol class="step-indicator" aria-label="Analysis steps">
+            <li class="completed"><span>&#10003;</span>Job Description</li>
+            <li class="completed"><span>&#10003;</span>Candidate Data</li>
+            <li class="active" aria-current="step"><span>3</span>AI Analysis</li>
+            <li><span>4</span>Results</li>
+          </ol>
+          <div class="analysis-layout">
+            <div class="pipeline-area">
+              <div class="section-heading">
+                <div>
+                  <h2>Analysis Pipeline</h2>
+                  <p>Every signal, working toward the right match.</p>
+                </div>
+              </div>
+              <div class="pipeline-sources">
+                <article class="agent-card" id="agent-job">
+                  <span class="agent-icon purple"><span class="icon icon-document" aria-hidden="true"></span></span>
+                  <h3>Job Agent</h3>
+                  <p>Extracts role requirements and required skills.</p>
+                  <span class="agent-status badge badge-neutral">Waiting</span>
+                </article>
+                <article class="agent-card" id="agent-resume">
+                  <span class="agent-icon cyan"><span class="icon icon-people" aria-hidden="true"></span></span>
+                  <h3>Resume Agent</h3>
+                  <p>Maps candidate skills, education, and experience.</p>
+                  <span class="agent-status badge badge-neutral">Waiting</span>
+                </article>
+                <article class="agent-card" id="agent-github">
+                  <span class="agent-icon green"><span class="icon icon-code" aria-hidden="true">&lt;/&gt;</span></span>
+                  <h3>GitHub Evidence Agent</h3>
+                  <p>Finds relevant projects and technical evidence.</p>
+                  <span class="agent-status badge badge-neutral">Waiting</span>
+                </article>
+              </div>
+              <div class="pipeline-merge" aria-hidden="true">
+                <span></span>
+              </div>
+              <div class="pipeline-stack">
+                <article class="agent-card agent-horizontal" id="agent-matching">
+                  <span class="agent-icon purple"><span class="icon icon-target" aria-hidden="true"></span></span>
+                  <div>
+                    <h3>Matching Agent</h3>
+                    <p>Scores compatibility against the job description.</p>
+                  </div>
+                  <span class="agent-status badge badge-neutral">Waiting</span>
+                </article>
+                <span class="pipeline-arrow" aria-hidden="true">&#8595;</span>
+                <article class="agent-card agent-horizontal" id="agent-gaps">
+                  <span class="agent-icon amber"><span class="icon icon-chart" aria-hidden="true"></span></span>
+                  <div>
+                    <h3>Skill Gap Agent</h3>
+                    <p>Identifies missing skills and their importance.</p>
+                  </div>
+                  <span class="agent-status badge badge-neutral">Waiting</span>
+                </article>
+                <span class="pipeline-arrow" aria-hidden="true">&#8595;</span>
+                <article class="agent-card agent-horizontal" id="agent-summary">
+                  <span class="agent-icon cyan"><span class="icon icon-document" aria-hidden="true"></span></span>
+                  <div>
+                    <h3>Recruiter Summary Agent</h3>
+                    <p>Brings the evidence into a recruiter summary.</p>
+                  </div>
+                  <span class="agent-status badge badge-neutral">Waiting</span>
+                </article>
+              </div>
+            </div>
+            <aside class="analysis-status">
+              <div class="progress-heading">
+                <h2>Overall Progress</h2>
+                <strong id="progress-value">0%</strong>
+              </div>
+              <div class="progress-track" id="analysis-progress" role="progressbar" aria-label="Overall analysis progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="progress-fill">
+                </div>
+              </div>
+              <p class="small-text muted" id="progress-message">Preparing analysis...</p>
+              <div class="activity-heading">
+                <h2>Live AI Activity</h2>
+                <span class="live-dot" aria-hidden="true"></span>
+              </div>
+              <ol class="activity-log" id="activity-log" aria-live="polite" aria-relevant="additions">
+              </ol>
+              <div class="demo-note">
+                Demo run
+                <span>Results use sample candidate data.</span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- SCREEN 4: JavaScript renders and filters the shared candidate data. -->
+        <section id="candidates" class="page-section" aria-labelledby="candidates-title" hidden>
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">
+                Talent, backed by evidence
+              </div>
+              <h1 id="candidates-title">Candidate Rankings</h1>
+              <p><span id="candidate-role-label">No analysis yet</span> <span class="inline-divider">/</span> <span id="candidate-total">0</span> <span id="candidate-data-label">analyzed candidates</span></p>
+            </div>
+            <button class="button button-primary" data-section="new-analysis"><span class="icon icon-plus" aria-hidden="true"></span>New Analysis</button>
+          </div>
+          <div class="results-summary">
+            <span class="result-summary-item"><span class="icon icon-people" aria-hidden="true"></span><strong>0</strong> Candidates</span>
+            <span class="result-summary-item"><span class="status-dot"></span><strong>0</strong> <span id="github-count-label">With GitHub evidence</span></span>
+            <span class="result-summary-item"><span class="score-text">0%</span> Top match</span>
+            <span class="small-tag">No analysis yet</span>
+          </div>
+          <div id="analysis-feedback" class="demo-note" role="status" hidden></div>
+          <div class="candidate-filters">
+            <label class="field search-field">
+              Search Candidate
+              <span class="search-input-wrap">
+                <span class="icon icon-search" aria-hidden="true"></span>
+                <input id="candidate-search" type="search" placeholder="Search by name or skill...">
+              </span>
+            </label>
+            <label class="field">
+              Match Score
+              <select id="match-filter">
+                <option value="all">All scores</option>
+                <option value="90">90% and above</option>
+                <option value="80">80% and above</option>
+                <option value="below80">Below 80%</option>
+              </select>
+            </label>
+            <label class="field">
+              Experience
+              <select id="experience-filter">
+                <option value="all">All experience</option>
+                <option value="below2">Under 2 years</option>
+                <option value="2to3">2 to 3 years</option>
+                <option value="above3">Over 3 years</option>
+              </select>
+            </label>
+            <label class="field">
+              GitHub Verified
+              <select id="github-filter">
+                <option value="all">All evidence</option>
+                <option value="Verified">Verified</option>
+                <option value="Partial">Partial</option>
+                <option value="Available">Available</option>
+                <option value="Unavailable">Unavailable</option>
+                <option value="Not Provided">Not Provided</option>
+              </select>
+            </label>
+            <label class="field">
+              Sort by Match Score
+              <select id="sort-order">
+                <option value="desc">Highest first</option>
+                <option value="asc">Lowest first</option>
+              </select>
+            </label>
+          </div>
+          <article class="panel candidate-table-panel">
+            <div class="panel-heading">
+              <h2>Ranked Candidates <span class="count-badge" id="visible-candidate-count">0</span></h2>
+              <button class="text-button" id="clear-filters">Reset filters <span aria-hidden="true">&#8635;</span></button>
+            </div>
+            <div class="table-scroll">
+              <table class="candidate-table">
+                <caption class="sr-only">
+                  Candidates ranked by match score
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Candidate</th>
+                    <th scope="col">Match Score</th>
+                    <th scope="col">Skills Match</th>
+                    <th scope="col">Experience</th>
+                    <th scope="col">GitHub Evidence</th>
+                    <th scope="col">Skill Gaps</th>
+                    <th scope="col">Recommendation</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="candidate-table-body">
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="candidate-empty-state" hidden>
+              <span class="icon icon-search" aria-hidden="true"></span>
+              <h3>No candidates found</h3>
+              <p>Try a different search or reset the filters.</p>
+              <button class="button button-secondary" id="empty-reset-filters">Reset Filters</button>
+            </div>
+            <div class="table-footer">
+              <span id="candidate-result-count" role="status">Showing 0 of 0 candidates</span>
+              <span id="score-source-label">No analysis data yet</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- SCREEN 5: The selected candidate fills the header and five tab panels. -->
+        <section id="candidate-detail" class="page-section" aria-labelledby="detail-name" hidden>
+          <button class="text-button back-button" data-section="candidates"><span aria-hidden="true">&#8592;</span>Back to Candidates</button>
+          <div class="candidate-detail-heading">
+            <div class="candidate-identity">
+              <span class="avatar avatar-large" id="detail-avatar"></span>
+              <div>
+                <div class="candidate-name-line">
+                  <h1 id="detail-name">Select a candidate</h1>
+                  <span class="badge badge-success" id="detail-recommendation"></span>
+                </div>
+                <p id="detail-role"></p>
+                <div class="candidate-meta">
+                  <span id="detail-experience"></span>
+                  <span class="meta-dot"></span>
+                  <span id="detail-github"></span>
+                  <span class="meta-dot"></span>
+                  <strong class="score-text" id="detail-match">Not reported</strong>
+                </div>
+              </div>
+            </div>
+            <div class="detail-actions">
+              <button class="button button-secondary" id="download-report"><span class="icon icon-download" aria-hidden="true"></span>Download Report</button>
+              <button class="button button-primary" id="shortlist-button" aria-pressed="false">
+                <span class="icon icon-plus" aria-hidden="true"></span>
+                <span id="shortlist-label">Shortlist</span>
+              </button>
+            </div>
+          </div>
+          <div class="candidate-tabs" role="tablist" aria-label="Candidate analysis">
+            <button class="candidate-tab active" id="tab-overview" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview">Overview</button>
+            <button class="candidate-tab" id="tab-resume" role="tab" aria-selected="false" aria-controls="panel-resume" data-tab="resume" tabindex="-1">
+              Resume Analysis
+            </button>
+            <button class="candidate-tab" id="tab-github" role="tab" aria-selected="false" aria-controls="panel-github" data-tab="github" tabindex="-1">
+              GitHub Evidence
+            </button>
+            <button class="candidate-tab" id="tab-gaps" role="tab" aria-selected="false" aria-controls="panel-gaps" data-tab="gaps" tabindex="-1">Skill Gaps</button>
+            <button class="candidate-tab" id="tab-summary" role="tab" aria-selected="false" aria-controls="panel-summary" data-tab="summary" tabindex="-1">
+              AI Summary
+            </button>
+          </div>
+          <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
+            <div class="score-card-grid" id="detail-scores">
+            </div>
+            <div class="detail-columns">
+              <div class="detail-section">
+                <h2>Skill Alignment</h2>
+                <p>Candidate skills compared with role requirements.</p>
+                <h3 class="subsection-label">Matched Skills</h3>
+                <div class="skill-chips" id="matched-skills">
+                </div>
+                <h3 class="subsection-label">Missing Skills</h3>
+                <div class="skill-chips" id="missing-skills">
+                </div>
+              </div>
+              <div class="detail-section">
+                <h2>Experience Comparison</h2>
+                <p>Relevant experience for the selected role.</p>
+                <dl class="comparison-list">
+                  <div>
+                    <dt>
+                      Required
+                    </dt>
+                    <dd id="required-experience">
+                      Not reported
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Candidate
+                    </dt>
+                    <dd id="overview-experience">
+                      Not reported
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Status
+                    </dt>
+                    <dd>
+                      <span class="badge badge-success" id="experience-status">Not reported</span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div class="tab-panel" id="panel-resume" role="tabpanel" aria-labelledby="tab-resume" tabindex="0" hidden>
+            <div class="resume-grid" id="resume-analysis-content">
+            </div>
+          </div>
+          <div class="tab-panel" id="panel-github" role="tabpanel" aria-labelledby="tab-github" tabindex="0" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>Project Evidence</h2>
+                <p>Illustrative project evidence from the demo dataset.</p>
+              </div>
+              <span class="small-tag">Sample repositories</span>
+            </div>
+            <div class="project-grid" id="github-projects">
+            </div>
+          </div>
+          <div class="tab-panel" id="panel-gaps" role="tabpanel" aria-labelledby="tab-gaps" tabindex="0" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>Skill Gaps</h2>
+                <p>Missing evidence and areas to explore in an interview.</p>
+              </div>
+            </div>
+            <div class="gap-list" id="skill-gap-content">
+            </div>
+          </div>
+          <div class="tab-panel" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary" tabindex="0" hidden>
+            <div class="summary-card">
+              <div class="summary-label">
+                <span class="icon icon-spark" aria-hidden="true">&#10022;</span>
+                AI Recruiter Summary
+                <span class="small-tag">Demo</span>
+              </div>
+              <blockquote id="ai-summary-text">
+              </blockquote>
+              <div class="summary-columns">
+                <div>
+                  <h3><span class="summary-check" aria-hidden="true">&#10003;</span>Strengths</h3>
+                  <ul id="summary-strengths">
+                  </ul>
+                </div>
+                <div>
+                  <h3><span class="summary-warning" aria-hidden="true">!</span>Concerns</h3>
+                  <ul id="summary-concerns">
+                  </ul>
+                </div>
+              </div>
+              <div class="recommendation-banner">
+                <span class="icon icon-check" aria-hidden="true"></span>
+                <div>
+                  <small>Recommendation</small>
+                  <strong id="summary-next-step"></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 6: Analytics shares the current candidate data and saved real analyses. -->
+        <section id="analytics" class="page-section" aria-labelledby="analytics-title" hidden>
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">
+                The bigger picture
+              </div>
+              <h1 id="analytics-title">Recruitment Analytics</h1>
+              <p>A clear view of your talent pipeline and hiring signals.</p>
+            </div>
+            <span class="period-label"><span class="icon icon-calendar" aria-hidden="true"></span><span id="analytics-period">No analysis yet</span> <span class="small-tag" data-mode-label>Empty</span></span>
+          </div>
+          <div class="kpi-grid">
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Total Candidates</span>
+                <span class="metric-icon purple"><span class="icon icon-people" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value" id="analytics-total-candidates">0</div>
+              <div class="kpi-footer"><span class="muted">Current analysis</span></div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Average Match Score</span>
+                <span class="metric-icon cyan"><span class="icon icon-target" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value"><span id="analytics-average-match">0</span><span class="value-unit">%</span></div>
+              <div class="kpi-footer"><span class="trend" id="analytics-scored-count">0</span><span>scored candidates</span></div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>Shortlisted</span>
+                <span class="metric-icon green"><span class="icon icon-check" aria-hidden="true"></span></span>
+              </div>
+              <div class="kpi-value" id="analytics-shortlisted">0</div>
+              <div class="kpi-footer"><span class="muted">Candidates ready for the next step</span></div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span>GitHub Verified</span>
+                <span class="metric-icon amber"><span class="icon icon-code" aria-hidden="true">&lt;/&gt;</span></span>
+              </div>
+              <div class="kpi-value" id="analytics-github-verified">0</div>
+              <div class="kpi-footer"><span class="trend" id="analytics-verified-percent">0%</span><span>of all candidates</span></div>
+            </article>
+          </div>
+          <div class="analytics-grid">
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Candidate Match Distribution</h2>
+                  <p id="analytics-distribution-subtitle">Compatibility across 0 candidates</p>
+                </div>
+              </div>
+              <div class="analytics-bars" id="analytics-distribution">
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Top Candidate Skills</h2>
+                  <p>Most common skills in candidate profiles</p>
+                </div>
+              </div>
+              <div class="analytics-bars" id="analytics-skills">
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Top Missing Skills</h2>
+                  <p>Most frequent gaps across job requirements</p>
+                </div>
+              </div>
+              <div class="analytics-bars" id="analytics-gaps">
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Candidates per Job Role</h2>
+                  <p id="analytics-roles-subtitle">Candidate volume by opportunity</p>
+                </div>
+              </div>
+              <div class="analytics-bars" id="analytics-roles">
+              </div>
+            </article>
+          </div>
+          <footer class="page-footer">
+            <span>Cognify &copy; 2026</span>
+            <span id="analytics-data-note">No analysis data yet</span>
+          </footer>
+        </section>
+      </main>
+    </div>
+
+    <!-- Shared feedback for uploads, shortlist changes, and report downloads. -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    </div>
+  </body>
+</html>
