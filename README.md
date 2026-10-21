@@ -1,4 +1,4 @@
-# Cognify — Kurukshetra 2.0 PS03
+# recruitment agent
 
 The existing frontend now sends real resume uploads to a Python FastAPI backend.
 The backend reuses all six original LangChain/OpenRouter chains. The frontend's
